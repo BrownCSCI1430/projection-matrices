@@ -1,0 +1,534 @@
+@charset "utf-8";
+*{
+  height: 100%; 
+}
+body{
+  height: 100%;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  width: fit-content;
+  max-width: 50%;
+}
+.pipeline{
+  flex-direction: column;
+  /* position: relative; */
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  float: left;
+}
+.contents{
+  position: relative;
+  float: left;
+  width: 65%;
+}
+.compare-contents{
+  position: absolute;
+  flex-direction: column;
+  float: left;
+}
+.demos{
+  /* flex-direction: row;
+  position: absolute;
+  left: 60%;
+  float: right;
+  max-width: 50%;
+  margin-right: 0;
+  height: fit-content; */
+  position: relative;
+  float: right;
+  right: 1%;
+  width: 30%;
+  max-width: 35%;
+  height: fit-content;
+  z-index: 100;
+}
+#both{
+  /* display: flex; */
+  /* position: relative; */
+  position: relative;
+  top: 0%;
+  height: fit-content; 
+  width: 100%;
+  max-height: 100%;
+  margin-bottom: 0px;
+  border-bottom: 4px double rgb(56, 162, 100);
+}
+
+#cam, #pers{
+  flex: 1;
+}
+#pers{
+  position: static; 
+  /* position: absolute; */
+  width: 100%;
+  /* height: 37%; */
+  height: fit-content;
+  /* border-top: 4px double rgb(56, 162, 100); */
+  top: 40%;
+  left: 0px;
+  margin-left: 20px;
+  margin-top: 0px;
+  margin-bottom: 2px;
+  padding: 0;
+  padding-top: 0px;
+  flex-direction: row;
+}
+#cam{
+  position: static;
+  width: 100%;
+  height: fit-content;
+  border-top: 4px double rgb(56, 162, 100);
+  margin-right: 0;
+  padding-left: 20px;
+  margin-top: 0;
+  padding-top: 0px;
+  padding-bottom: 20px;
+  margin-bottom: 0px;
+  top: 80%;
+}
+.section-container{
+  position: relative;
+  width: 100%;
+}
+
+.slideContainer{
+  display: flex;
+  flex-direction:  column;
+  margin-left: 10px;
+  font-size: 17px;
+}
+.slider{
+  height: 4px;
+  width: 100px;
+  position: relative;
+  margin: 0%;
+  padding: 0%;
+  border: 1px solid black;
+}
+.rotation{
+  /* width: fit-content;
+  max-width: 50%; */
+  width: 50%;
+  border-top: 1px dashed rgb(68, 48, 3);
+  border-right: 1px dashed rgb(68, 48, 3);
+}
+.translation{
+  /* width: fit-content;
+  max-width: 50%; */
+  width: 50%;
+  border-top: 1px dashed rgb(68, 48, 3);
+}
+.row{
+  display: flex;
+  flex-direction: row;
+}
+.generator{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  position: relative;
+  align-items: center;
+  border-top: 1px dashed rgb(68, 48, 3);
+  border-left: 1px dashed rgb(68, 48, 3);
+}
+#sphere-button, #cube-button, #bunny-button{
+  width: 160px;
+}
+.input-points{
+  width: 200%;
+  /* border-right: 1px dashed rgb(68, 48, 3); */
+  border-top: 1px dashed rgb(68, 48, 3);;
+}
+.input-intrinsics{
+  width:45%;
+  border-right: 1px dashed rgb(68, 48, 3);
+  border-top: 1px dashed rgb(68, 48, 3);;
+}
+#focal-x, #focal-y{
+  width: 30px;
+}
+.text-inputs{
+  /* background:rgb(187, 240, 234); */
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+/* .constants{
+  width: 40%;
+  border-left: 1px dashed rgb(68, 48, 3);;
+  border-top: 1px dashed rgb(68, 48, 3);;
+} */
+.parameter-name{
+  color: rgb(121, 6, 6)
+}
+.slidecontainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.slidecontainer .value {
+  /* margin-bottom:10px; */
+  color:rgb(5, 78, 35);
+  font-weight: 625;
+  font-size: 15px;
+  margin: 1%;
+}
+#transX-val, #transY-val, #transZ-val{
+  /* margin-bottom: 5px; */
+  color:rgb(5, 78, 35);
+  font-weight: 625;
+  font-size: 15px;
+}
+.pair{
+  margin-left: 15px;
+  display:flex;
+  flex-direction: column;
+  margin-right: 20%;
+}
+#pers-point1 .matrix-label, #cam-point1 .matrix-label{
+  color: rgb(162, 2, 103);
+  font-weight: 600;
+}
+#pers-point2 .matrix-label, #cam-point2 .matrix-label{
+  color: rgb(184, 124, 3);
+  font-weight: 600;
+}
+#pers-point3 .matrix-label, #cam-point3 .matrix-label{
+  color: rgb(3, 150, 40);
+  font-weight: 600;
+}
+#pers-point4 .matrix-label, #cam-point4 .matrix-label{
+  color: rgb(1, 1, 169);
+  font-weight: 600;
+}
+.val-left{
+  position: relative;
+  left: -42%;
+  top: 37px;
+}
+.val-right{
+  position: relative;
+  left: 42%;
+  top: -5px;
+}
+input[type="range"]{
+  margin: 0;
+  padding: 0;
+}
+
+
+#dot-mapping{
+  width:fit-content;
+  max-width: 50%;
+  position: relative;
+  align-items:left;
+  display: inline-flex;
+  height: auto;
+  width: 900px;
+  top: -80%;
+  right: 27%;
+  padding:0;
+  font-size: 15px;
+  z-index: 3;
+  
+}
+.pers-dot-mapping{
+  margin-right: -10%;
+  
+}
+.cam-dot-mapping{
+  margin-right: -10%;
+}
+.matrices-equations{
+  width: fit-content;
+  max-width: 70%;
+}
+#matrices-2d{
+  width:fit-content;
+  max-width: 50%;
+  /* position: relative; */
+  position: relative;
+  align-items:left;
+  display: inline-flex;
+  height: auto;
+  width: 900px;
+  top: -85%;
+  right: 10%;
+  padding:0;
+  font-size: 15px;
+  z-index: 3;
+  /* align-items: flex-start */
+  padding-bottom: 20px;
+  
+}
+.pers-matrix-equation{
+  margin-right: 25%;
+  
+}
+.cam-matrix-equation{
+  margin-right: 25%;
+  
+}
+.matrix-equation>span {
+  position:relative;
+  /* top:1rem; */
+  top:4rem;
+  /* margin: 10px */
+  margin: 0.1px;
+}
+.explain{
+  position: relative;
+  width: 80%;
+}
+#pers-to-cam, #cam-to-pers{
+  font-size: 15px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.matrices-equations-pers-to-cam .matrix-equation>span{
+  top: 3.8rem;
+}
+.pers-to-cam-explain, .cam-to-pers-explain{
+  color:rgb(3, 3, 96);
+  font-size: 15px;
+  text-align: left;
+  margin-left: 3%;
+}
+.map-span{
+  position: absolute;
+  top: 10px;
+}
+.drop-z{
+  position: relative;
+  top: 3rem;
+}
+.rotation-matrix-wrapper{
+  position: relative;
+  margin-left: 0;
+}
+.matrix {
+text-align: center;
+display:inline-grid;
+float: left;
+grid-template-areas:"a a a" "b c d";
+grid-template-columns:1ch auto 1ch;
+/* gap:2ch .75ch
+
+margin-top: 0px;
+  margin-bottom: 0px; */
+}
+
+.matrix:before,
+.matrix:after {
+content:"";
+font-size:.5rem;
+border:1px solid #000000;
+
+}
+.matrix:before {
+border-right:none;
+
+}
+.matrix:after {
+border-left:none;
+
+}
+.matrix-label {
+  grid-area:a;
+  font-size:.75rem;
+  font-weight:325;
+  color:#000000; 
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0px;
+  margin-bottom: 0px;
+ }
+.matrix-elements {
+  margin-top: 0px;
+  padding:.75ch .5ch;
+  display:grid;
+  place-items:left;
+  grid-auto-flow:column;
+  gap:.5ch 2ch
+  
+}
+/* #ortho-button, #proj-button, #pers-button, #scale-button{
+  text-align: center;
+} */
+#ortho-proj-explain, #proj-matrix-explain, #pers-matrix-explain, #scale-matrix-explain, #transformation-explain, #intrinsic-explain,#extrinsic-explain{
+  display: none;
+}
+
+
+#ortho-proj-explain .matrix-label, #ortho-proj-explain .matrix-elements,
+#proj-matrix-explain .matrix-label, #proj-matrix-explain .matrix-elements,
+#pers-matrix-explain .matrix-label, #pers-matrix-explain .matrix-elements,
+#scale-matrix-explain .matrix-label, #scale-matrix-explain .matrix-elements,
+#transformation-explain .matrix-label, #transformation-explain .matrix-elements,
+#intrinsic-explain .matrix-label, #intrinsic-explain .matrix-elements,
+#extrinsic-explain .matrix-label, #extrinsic-explain .matrix-elements{
+  color:rgb(5, 78, 35);
+}
+#ortho-proj-explain .matrix::before,
+#proj-matrix-explain .matrix::before,
+#pers-matrix-explain .matrix::before,
+#scale-matrix-explain .matrix::before,
+#transformation-explain .matrix::before,
+#intrinsic-explain .matrix::before,
+#extrinsic-explain .matrix::before{
+  /* display: none; */
+  border:1px solid rgb(5, 78, 35);
+  border-right: none;
+}
+#ortho-proj-explain .matrix::after,
+#proj-matrix-explain .matrix::after,
+#pers-matrix-explain .matrix::after,
+#scale-matrix-explain .matrix::after,
+#transformation-explain .matrix::after,
+#intrinsic-explain .matrix::after,
+#extrinsic-explain .matrix::after{
+  /* display: none; */
+  border:1px solid rgb(5, 78, 35);
+  border-left: none;
+}
+#ortho-button, #proj-button, #pers-button, #scale-button, #trans-button, #intrinsic-button, #extrinsic-button:hover{
+  cursor: pointer;
+}
+#proj-matrix-explain .matrix-elements{
+  width: 30ch
+}
+.help{
+  display: none;
+}
+.matrices-equations-pers-to-cam .matrix-elements, 
+.matrices-equations-pers-to-cam .matrix-label,
+.matrices-equations-cam-to-pers .matrix-elements, 
+.matrices-equations-cam-to-pers .matrix-label{
+  color: rgb(3, 3, 96);
+}
+.matrices-equations-pers-to-cam .matrix::before,
+.matrices-equations-pers-to-cam .matrix::after,
+.matrices-equations-cam-to-pers .matrix::before,
+.matrices-equations-cam-to-pers .matrix::after{
+  border: 1px solid rgb(3, 3, 96);
+}
+.matrices-equations-pers-to-cam .matrix::before,
+.matrices-equations-cam-to-pers .matrix::before{
+  border-right: none;
+}
+.matrices-equations-pers-to-cam .matrix::after,
+.matrices-equations-cam-to-pers .matrix::after{
+  border-left: none;
+}
+.matrices-equations-pers-to-cam .matrix-equation>span,
+.matrices-equations-cam-to-pers .matrix-equation>span{
+  color: rgb(3, 3, 96);
+}
+.note{
+  color:rgb(5, 78, 35);
+  font-size: 17px;
+  position: relative; 
+  display: inline-block;
+  width: 100%;
+  margin: 0px;
+}
+/* .can
+
+.cam-canvas{
+  bottom: 20px;
+} */
+.canvas{
+  position: relative;
+  max-height: 100%;
+  top: 100%;
+  width: fit-content;
+  max-width: 100%;
+}
+.cam-canvas, .pers-canvas{
+  border: 3px solid blue;
+  position: relative;
+  /* left: -20%; */
+  margin-top: 20px;
+  width: fit-content;
+  max-width: 100%;  
+  height: 34vh;
+}
+.pers-canvas{
+  margin-bottom: 90px;
+}
+/* .cam-canvas{
+  height: 50vh;
+} */
+.arrow{
+  font-size: 20px;
+  font-weight: 400;
+  color:brown;
+}
+.short-arrow{
+  width: 40px;
+}
+.arrow-cam{
+  font-size: 20px;
+  position: relative;
+  font-weight: 400;
+  top: -31px;
+  left: -47px;
+}
+.input-points{
+  width: 450px;
+}
+input[type=text], button{
+  font-size: 0.8em;
+  width: 55px;
+  margin: 5px;
+  /* cursor: pointer; */
+}
+
+input[type=button]{
+  margin: 4px;
+  margin-left: 3%;
+  cursor: pointer;
+  font-size: 1.0em;
+}
+input[type=button].shape{
+  margin: 14px;
+}
+.angle-of-view{
+  color: rgb(121, 6, 6);
+  font-weight: 400;
+}
+h5{
+  color: blue;
+  margin: 2%;
+}
+h4{
+  margin: 0px;
+  z-index: 100;
+  padding-bottom: 10px;
+}
+.default-rot{
+  font-size: 14px;
+  margin: 1%;
+}
+/* .small-screen{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+.upper-line{
+  position: flex;
+  flex-direction: row; 
+} */
+/* .small-screen .rotation-matrix-wrapper{
+  position: flex;
+  display: inline-block;
+  flex-direction: row;
+} */
+.matrices-equations-pers-to-cam, .matrices-equations-cam-to-pers{
+  display: none;
+}
