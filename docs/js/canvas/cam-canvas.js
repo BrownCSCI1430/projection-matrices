@@ -1,6 +1,7 @@
 import * as THREE from 'https://unpkg.com/three@0.155.0/build/three.module.js';
 import { Scene } from 'https://unpkg.com/three@0.155.0/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js';
+import { DepthFormat, Vector3 } from 'three';
 
 export const camPoint1 = document.getElementById('cam-point1').getElementsByTagName('span');
 export const camPoint2 = document.getElementById('cam-point2').getElementsByTagName('span');
@@ -36,8 +37,8 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(1);
 
 // const camera = new THREE.PerspectiveCamera(80, sizes.width/sizes.height, 0.1, 100);
-const camera = new THREE.PerspectiveCamera(55, sizes.width/sizes.height, 0.1, 100);
-camera.position.set(0, 0, 20)
+const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height, 0.1, 100);
+camera.position.set(0, 0, 5)
 camera.lookAt(0,0, 0)
 scene.add(camera) 
 // const controls = new OrbitControls(camera, renderer.domElement);
@@ -50,6 +51,7 @@ export function start(){
     scene.add(light)
 
     const gridHelper = new THREE.GridHelper(60, 60);
+    // gridHelper.scale.set(0.5, 0.5,0.5)
     // const gridHelper = new THREE.GridHelper(30);
     gridHelper.material.color.set('#ff0000');
     gridHelper.rotation.x = Math.PI/2;
@@ -107,10 +109,10 @@ export function camRenderDots(){
     const dot2 = new THREE.Mesh(dotGeometry, dotMaterial2);
     const dot3 = new THREE.Mesh(dotGeometry, dotMaterial3);
     const dot4 = new THREE.Mesh(dotGeometry, dotMaterial4);
-    dot1.position.set(arr[0], arr[1], 0);
-    dot2.position.set(arr[2], arr[3], 0);
-    dot3.position.set(arr[4], arr[5], 0);
-    dot4.position.set(arr[6], arr[7], 0);
+    dot1.position.set(arr[0], arr[1], -1);
+    dot2.position.set(arr[2], arr[3], -1);
+    dot3.position.set(arr[4], arr[5], -1);
+    dot4.position.set(arr[6], arr[7], -1);
     if (near.value === ""){
         near.value = -0.5
     }
@@ -203,8 +205,11 @@ export function camRenderDots(){
     renderer.render(scene, camera);
 }
 
-export function camRenderSphere(){
-    let radius = 5;
+export function camRenderSphere(rotateY){
+    if (rotateY == undefined){
+        rotateY = 0;
+    }
+    let radius = 30;
     // preparations
     clearBunnyDots();
     clearScene();
@@ -214,11 +219,12 @@ export function camRenderSphere(){
     for (let i = 0; i < 50; i ++){
         const phi = Math.PI / 50 * i
         const num = Math.sin(phi) * 40
-        for (let j = 0; j < num; j ++){
+        for (let j = 0; j < num + 1; j ++){
             const theta = 2 * Math.PI / num * j
-            points[3 * (i * 40 + j)] = radius * Math.sin(phi) * Math.cos(theta)
-            points[3 * (i * 40 + j) + 1] = radius * Math.sin(phi) * Math.sin(theta) 
-            points[3 * (i * 40 + j) + 2] = radius * Math.cos(phi) + 5.5
+            // points[3 * (i * num + j)] = radius * Math.sin(phi) * Math.cos(theta)
+            // points[3 * (i * num + j) + 1] = radius * Math.sin(phi) * Math.sin(theta) 
+            // points[3 * (i * num + j) + 2] = radius * Math.cos(phi)
+            points.push(new THREE.Vector3(radius * Math.sin(phi) * Math.cos(theta), radius * Math.sin(phi) * Math.sin(theta), radius * Math.cos(phi)))
         }
     }
     let numDots = points.length;
@@ -230,7 +236,8 @@ export function camRenderSphere(){
     }
     pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
         arr[1], arr[4], arr[7],  arr[10],
-        arr[2], arr[5], arr[8], arr[11]);
+        arr[2], arr[5], arr[8], arr[11]+ 50,
+        0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
@@ -244,21 +251,31 @@ export function camRenderSphere(){
     if (fy.value === ""){
         fy.value = 1;
     }
-    const dotGeometry = new THREE.SphereGeometry(0.1, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.02, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < numDots; i ++){
-        const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
-        const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
-        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11])
+    for (let i = 0; i < points.length; i ++){
+        // const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
+        // const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
+        // const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11])
+        // const x = arr[0] * points[i].x + arr[3] * points[i].y + arr[6] * points[i].z + arr[9]
+        // const y = arr[1] * points[i].x + arr[4] * points[i].y + arr[7] * points[i].z + arr[10]
+        // const w = -(arr[2] * points[i].x + arr[5] * points[i].y + arr[8] * points[i].z + arr[11])
+        let point2 = points[i].applyMatrix4(pers_proj)
+        // console.log(pers_proj)
+        // console.log(arr[11])
+        // let point2 = transformPoint(points[i].clone(), 0, rotateY, 0, 0, 0, 0)
+        // console.log('hi')
+        // console.log(rotateY)
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= parseFloat(near.value) && w >= parseFloat(far.value)){
-        if (w <= 0 && w >= -100){
-            dot.position.set(x/w , y/w, 0);
+        // if (w <= 0 && w >= -100){
+            // dot.position.set(x/w , y/w, 0);
+            dot.position.set(point2.x / point2.z, point2.y / point2.z)
             scene.add(dot)
-        }
+        // }
         // dot.position.set(x / w, y / w, 0)
         // scene.add(dot)
     }
@@ -276,68 +293,22 @@ export function camRenderCube(){
     start();
     // generates the point cloud
     const points = [];
-    // top
     for (let i = 0; i < 30; i ++){
-        points[3 * i] = - len / 2 + (len / 30) * i
-        points[3 * i + 1] = len / 2;
-        points[3 * i + 2] = len / 2 + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 90] = - len / 2 + (len / 30) * i
-        points[3 * i + 91] = - len / 2 
-        points[3 * i + 92] = len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 180] = - len / 2
-        points[3 * i + 181] = - len / 2 + (len / 30) * i
-        points[3 * i + 182] = len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 270] = len / 2
-        points[3 * i + 271] = - len / 2 + (len / 30) * i
-        points[3 * i + 272] = len / 2 + 7
-    }
-    // bottom
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 360] = - len / 2 + (len / 30) * i
-        points[3 * i + 361] = len / 2;
-        points[3 * i + 362] = - len / 2 + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 450] = - len / 2 + (len / 30) * i
-        points[3 * i + 451] = - len / 2 
-        points[3 * i + 452] = - len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 540] = - len / 2
-        points[3 * i + 541] = - len / 2 + (len / 30) * i
-        points[3 * i + 542] = - len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 630] = len / 2
-        points[3 * i + 631] = - len / 2 + (len / 30) * i
-        points[3 * i + 632] = - len / 2 + 7
-    }
-    // bridges
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 720] = len / 2 
-        points[3 * i + 721] = len / 2;
-        points[3 * i + 722] = - len / 2 + (len / 30) * i + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 810] = - len / 2
-        points[3 * i + 811] = - len / 2 
-        points[3 * i + 812] = - len / 2 + (len / 30) * i + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 900] = - len / 2
-        points[3 * i + 901] = len / 2
-        points[3 * i + 902] = - len / 2 + (len / 30) * i + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 990] = len / 2
-        points[3 * i + 991] = - len / 2
-        points[3 * i + 992] = - len / 2 + (len / 30) * i + 7
+        // top
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i,len / 2, len / 2 + 7))
+        points.push(new THREE.Vector3( - len / 2 + (len / 30) * i, - len / 2 , len / 2 + 7))
+        points.push(new THREE.Vector3(- len / 2,- len / 2 + (len / 30) * i, len / 2 + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2 + (len / 30) * i,len / 2 + 7 ))
+        // bottom
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i, len / 2, - len / 2 + 7))
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i, - len / 2 ,- len / 2 + 7))
+        points.push(new THREE.Vector3( - len / 2, - len / 2 + (len / 30) * i, - len / 2 + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2 + (len / 30) * i, - len / 2 + 7 ))
+         // bridges
+        points.push(new THREE.Vector3( len / 2 ,len / 2,   - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(- len / 2, - len / 2 ,  - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(- len / 2,len / 2,  - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2, - len / 2 + (len / 30) * i + 7 ))
     }
     // projection matrix
     let pers_proj = new THREE.Matrix4();
@@ -347,7 +318,8 @@ export function camRenderCube(){
     }
     pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
         arr[1], arr[4], arr[7],  arr[10],
-        arr[2], arr[5], arr[8], arr[11]);
+        arr[2], arr[5], arr[8], arr[11]-20, 
+        0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
@@ -361,82 +333,122 @@ export function camRenderCube(){
     if (fy.value === ""){
         fy.value = 1;
     }
-    const dotGeometry = new THREE.SphereGeometry(0.15, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.05, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < numDots; i ++){
-        const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
-        const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
-        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11])
+    for (let i = 0; i < points.length; i ++){
+        // const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
+        // const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
+        // const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] -10)
+        let point = points[i].applyMatrix4(pers_proj)
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= parseFloat(near.value) && w >= parseFloat(far.value)){
-        if (w <= 0 && w >= -100){
-            dot.position.set(x/w , y/w, 0);
+        // if (w <= 0 && w >= -100){
+            if (point.z <= 0 && point.z >= -100){
+            //dot.position.set(x/w , y/w, 0);
+            dot.position.set(point.x / point.z, point.y / point.z)
             scene.add(dot)
-        }
+       }
     }
     renderer.render(scene, camera)
 }
 let bunnyDots = [];
+function rotationMatrixX(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new THREE.Matrix4().set(
+      1, 0, 0, 0,
+      0, cos, -sin, 0,
+      0, sin, cos, 0,
+      0, 0, 0, 1
+    );
+  }
+  
+  function rotationMatrixY(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new THREE.Matrix4().set(
+      cos, 0, sin, 0,
+      0, 1, 0, 0,
+      -sin, 0, cos, 0,
+      0, 0, 0, 1
+    );
+  }
+  function rotationMatrixZ(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new THREE.Matrix4().set(
+      cos, -sin, 0, 0,
+      sin, cos, 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1
+    );
+  }
+  function translationMatrix(dx, dy, dz) {
+    return new THREE.Matrix4().set(
+      1, 0, 0, dx,
+      0, 1, 0, dy,
+      0, 0, 1, dz,
+      0, 0, 0, 1
+    );
+  }
+  function transformPoint(point, rotateX, rotateY, rotateZ, dx, dy, dz) {
+    // Extrinsic matrix (camera transformation matrix)
+    const extrinsicMatrix = new THREE.Matrix4().copy(camera.matrixWorld).invert()
+    // const extrinsicMatrix = new THREE.Matrix4().identity();
+    // Intrinsic matrix (we'll keep it as identity for this example)
+    const intrinsicMatrix = new THREE.Matrix4().identity();
+  
+    // Rotation matrices based on input angles
+    const rotateXMatrix = rotationMatrixX(rotateX);
+    const rotateYMatrix = rotationMatrixY(rotateY);
+    const rotateZMatrix = rotationMatrixZ(rotateZ);
+
+    const translateMatrix = translationMatrix(dx, dy, dz);
+  
+    // Compute the full transformation matrix
+    let fullTransform = new THREE.Matrix4()
+      .multiply(intrinsicMatrix)
+      .multiply(extrinsicMatrix)
+      .multiply(translateMatrix)
+      .multiply(rotateXMatrix)
+      .multiply(rotateYMatrix)
+      .multiply(rotateZMatrix);
+  
+    // console.log(fullTransform)
+    // Transform the point
+    point.applyMatrix4(fullTransform);
+    return point;
+}
 /*
 creates bunny
 */
-export function camRenderBunny(){
+export function camRenderBunny(rotateX, rotateY){
     // preparations
     clearScene();
     start();
     // points
     let points = [];
-    fetch('bunny.json')
+    fetch('bunny4.json')
     .then(response => response.json())
     .then(pointCloud => {
-        // Use pointCloud data as needed
         for (let i = 0; i < pointCloud.length; i ++ ){
-            for (let j = 0;j < 3; j ++){
-                // points[3 * i + j] = pointCloud[i][j]
-                points.push(pointCloud[i][j])
-            }
-
+            points.push(new THREE.Vector3(pointCloud[i][0], pointCloud[i][1], pointCloud[i][2]))
         }
-        // projection matrix
-    let pers_proj = new THREE.Matrix4();
-    let arr = []
-    for (let i = 0; i < 12; i++) {
-        arr[i] = Math.round(cameraMatrixHTML[i].innerHTML * 100) / 100;
-    }
-    pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
-        arr[1], arr[4], arr[7],  arr[10],
-        arr[2], arr[5], arr[8], arr[11]);
-    // projected points
-    if (near.value === ""){
-        near.value = -0.5
-    }
-    if (far.value === ""){
-        far.value = -1
-    }
-    if (fx.value === ""){
-        fx.value = 1;
-    }
-    if (fy.value === ""){
-        fy.value = 1;
-    }
-    const dotGeometry = new THREE.SphereGeometry(0.15, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < points.length / 3; i ++){
-        const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
-        const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
-        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11])
-        const dot = new THREE.Mesh(dotGeometry, dotMaterial)
-        // if (w <= 0 && w >= -100){
-            if(w >= -0.1){
-            dot.position.set(x/w, y/w, 0);
+    for (let i = 0; i < points.length; i ++){
+        points[i] = transformPoint(points[i].clone(), rotateX, rotateY, 0, 0, 0, -10);
+        if (points[i].z <= 0){
+            const dot = new THREE.Mesh(dotGeometry, dotMaterial)
+            dot.position.set(-points[i].x / points[i].z, -points[i].y / points[i].z)
             scene.add(dot)
-            bunnyDots.push(dot);
+            bunnyDots.push(dot)
         }
     }
     renderer.render(scene, camera)

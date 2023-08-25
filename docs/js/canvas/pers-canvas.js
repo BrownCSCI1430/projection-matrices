@@ -36,8 +36,8 @@ const sizes = {
 }
 
 // creates camera
-const camera = new THREE.PerspectiveCamera(55, sizes.width/sizes.height, 0.1, 100);
-camera.position.set(0, 0, 20)
+const camera = new THREE.PerspectiveCamera(45, sizes.width/sizes.height, 0.1, 100);
+camera.position.set(0, 0, 5)
 camera.lookAt(0,0,0)
 scene.add(camera)
 // creates renderer
@@ -219,10 +219,13 @@ export function persRenderSphere(){
             const theta = 2 * Math.PI / num * j
             // points.push(radius * Math.sin(phi) * Math.cos(theta))
             // points.push(radius * Math.sin(phi) * Math.sin(theta))
-            // points.push(radius * Math.sin(phi) * Math.cos(theta))
-            points[3 * (i * 40 + j)] = radius * Math.sin(phi) * Math.cos(theta)
-            points[3 * (i * 40 + j) + 1] = radius * Math.sin(phi) * Math.sin(theta) 
-            points[3 * (i * 40 + j) + 2] = radius * Math.cos(phi) + 5.5
+            // // points.push(radius * Math.sin(phi) * Math.cos(theta))
+            
+            // points[3 * (i * 40 + j)] = radius * Math.sin(phi) * Math.cos(theta)
+            // points[3 * (i * 40 + j) + 1] = radius * Math.sin(phi) * Math.sin(theta) 
+            // points[3 * (i * 40 + j) + 2] = radius * Math.cos(phi)
+            points.push(new THREE.Vector3(radius * Math.sin(phi) * Math.cos(theta), radius * Math.sin(phi) * Math.sin(theta) , radius * Math.cos(phi))) 
+           //  console.log(points[3 * (i * 40 + j) + 2])
         }
     }
     let numDots = points.length;
@@ -232,10 +235,14 @@ export function persRenderSphere(){
     for (let i = 0; i < 16; i++) {
         arr[i] = Math.round(persProjMatrixHTML[i].innerHTML * 100) / 100;
     }
+    // pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
+    //     arr[1], arr[5], arr[9],  arr[13],
+    //     arr[2], arr[6], arr[10], arr[14],
+    //     arr[3], arr[7], arr[11], -10);
     pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
         arr[1], arr[5], arr[9],  arr[13],
-        arr[2], arr[6], arr[10], arr[14],
-        arr[3], arr[7], arr[11], arr[15]);
+        arr[3], arr[7], arr[11], arr[15] + 7,
+        0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
@@ -249,21 +256,25 @@ export function persRenderSphere(){
     if (fy.value === ""){
         fy.value = 1;
     }
-    const dotGeometry = new THREE.SphereGeometry(0.1, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < numDots; i ++){
-        const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
-        const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
-        const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]
+    for (let i = 0; i < points.length; i ++){
+        // const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
+        // const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
+        // const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]
+        let point = points[i].applyMatrix4(pers_proj)
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
+       // console.log(pers_proj)
         // if (w <= parseFloat(near.value) && w >= parseFloat(far.value)){
-        if (w <= 0 && w >= -100){
-            dot.position.set(x/w , y/w, 0);
+        // if (w <= 0 && w >= -100){
+            // dot.position.set(x/w , y/w, 0);
+            dot.position.set(point.x / point.z, point.y / point.z)
             scene.add(dot)
-        }
+        //}
+        
         // dot.position.set(x / w, y / w, 0)
         // scene.add(dot)
     }
@@ -281,68 +292,22 @@ export function persRenderCube(){
     start();
     // generates the point cloud
     const points = [];
-    // top
     for (let i = 0; i < 30; i ++){
-        points[3 * i] = - len / 2 + (len / 30) * i
-        points[3 * i + 1] = len / 2;
-        points[3 * i + 2] = len / 2 + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 90] = - len / 2 + (len / 30) * i
-        points[3 * i + 91] = - len / 2 
-        points[3 * i + 92] = len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 180] = - len / 2
-        points[3 * i + 181] = - len / 2 + (len / 30) * i
-        points[3 * i + 182] = len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 270] = len / 2
-        points[3 * i + 271] = - len / 2 + (len / 30) * i
-        points[3 * i + 272] = len / 2 + 7
-    }
-    // bottom
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 360] = - len / 2 + (len / 30) * i
-        points[3 * i + 361] = len / 2;
-        points[3 * i + 362] = - len / 2 + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 450] = - len / 2 + (len / 30) * i
-        points[3 * i + 451] = - len / 2 
-        points[3 * i + 452] = - len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 540] = - len / 2
-        points[3 * i + 541] = - len / 2 + (len / 30) * i
-        points[3 * i + 542] = - len / 2 + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 630] = len / 2
-        points[3 * i + 631] = - len / 2 + (len / 30) * i
-        points[3 * i + 632] = - len / 2 + 7
-    }
-    // bridges
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 720] = len / 2 
-        points[3 * i + 721] = len / 2;
-        points[3 * i + 722] = - len / 2 + (len / 30) * i + 7;
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 810] = - len / 2
-        points[3 * i + 811] = - len / 2 
-        points[3 * i + 812] = - len / 2 + (len / 30) * i + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 900] = - len / 2
-        points[3 * i + 901] = len / 2
-        points[3 * i + 902] = - len / 2 + (len / 30) * i + 7
-    }
-    for (let i = 0; i < 30; i ++){
-        points[3 * i + 990] = len / 2
-        points[3 * i + 991] = - len / 2
-        points[3 * i + 992] = - len / 2 + (len / 30) * i + 7
+        // top
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i,len / 2, len / 2 + 7))
+        points.push(new THREE.Vector3( - len / 2 + (len / 30) * i, - len / 2 , len / 2 + 7))
+        points.push(new THREE.Vector3(- len / 2,- len / 2 + (len / 30) * i, len / 2 + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2 + (len / 30) * i,len / 2 + 7 ))
+        // bottom
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i, len / 2, - len / 2 + 7))
+        points.push(new THREE.Vector3(- len / 2 + (len / 30) * i, - len / 2 ,- len / 2 + 7))
+        points.push(new THREE.Vector3( - len / 2, - len / 2 + (len / 30) * i, - len / 2 + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2 + (len / 30) * i, - len / 2 + 7 ))
+         // bridges
+        points.push(new THREE.Vector3( len / 2 ,len / 2,   - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(- len / 2, - len / 2 ,  - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(- len / 2,len / 2,  - len / 2 + (len / 30) * i + 7))
+        points.push(new THREE.Vector3(len / 2, - len / 2, - len / 2 + (len / 30) * i + 7 ))
     }
     // projection matrix
     let pers_proj = new THREE.Matrix4();
@@ -352,8 +317,8 @@ export function persRenderCube(){
     }
     pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
         arr[1], arr[5], arr[9],  arr[13],
-        arr[2], arr[6], arr[10], arr[14],
-        arr[3], arr[7], arr[11], arr[15]);
+        arr[3], arr[7], arr[11], arr[15]-20, 
+        0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
@@ -372,14 +337,15 @@ export function persRenderCube(){
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < numDots; i ++){
-        const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
-        const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
-        const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]
+    for (let i = 0; i < points.length; i ++){
+        // const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
+        // const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
+        // const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]
+        let point = points[i].applyMatrix4(pers_proj)
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= parseFloat(near.value) && w >= parseFloat(far.value)){
-        if (w <= 0 && w >= -100){
-            dot.position.set(x/w , y/w, 0);
+        if (point.z<= 0 && point.z >= -100){
+            dot.position.set(point.x/point.z , point.y/point.z, 0);
             scene.add(dot)
         }
     }
@@ -395,7 +361,7 @@ export function persRenderBunny(){
     start();
     // points
     var points = [];
-    fetch('bunny.json')
+    fetch('bunny2.json')
     .then(response => response.json())
     .then(pointCloud => {
         // Use pointCloud data as needed
@@ -412,10 +378,14 @@ export function persRenderBunny(){
     for (let i = 0; i < 16; i++) {
         arr[i] = Math.round(persProjMatrixHTML[i].innerHTML * 100) / 100;
     }
-    pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
-        arr[1], arr[5], arr[9],  arr[13],
-        arr[2], arr[6], arr[10], arr[14],
-        arr[3], arr[7], arr[11], arr[15]);
+    // pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
+    //     arr[1], arr[5], arr[9],  arr[13],
+    //     arr[2], arr[6], arr[10], arr[14],
+    //     arr[3], arr[7], arr[11], arr[15]);
+        pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
+            arr[1], arr[5], arr[9],  arr[13],
+            arr[3], arr[7], arr[11], arr[15],
+            0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
@@ -429,7 +399,7 @@ export function persRenderBunny(){
     if (fy.value === ""){
         fy.value = 1;
     }
-    const dotGeometry = new THREE.SphereGeometry(0.15, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
@@ -437,7 +407,7 @@ export function persRenderBunny(){
     for (let i = 0; i < points.length / 3; i ++){
         const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
         const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
-        const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]
+        const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15] +2
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= 0 && w >= -100){
             if(w >= -0.1){

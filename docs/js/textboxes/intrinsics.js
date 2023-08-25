@@ -39,7 +39,16 @@ function enter(){
         RENDER.updatePersMatrix();
         RENDER.updatePersMatrixFromCam();
         if (RENDER.pointsUnready()){
-            PERS.persRenderSphere();
+            if (sphereButton.value == "Hide Sphere"){
+                PERS.persRenderSphere();
+                CAM.camRenderSphere();
+              }else if (cubeButton.value == "Hide Cube"){
+                PERS.persRenderCube();
+                CAM.camRenderCube();
+              }else{
+                PERS.persRenderBunny();
+                CAM.camRenderBunny();
+              }
           }else{
             RENDER.updateCamPoints();
             RENDER.updatePersPoints();

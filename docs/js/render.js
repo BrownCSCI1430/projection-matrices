@@ -130,6 +130,28 @@ function clearDots(){
   fourthY.value = '' 
   fourthZ.value = ''
 }
+function rotationMatrixX(angle) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return new THREE.Matrix4().set(
+    1, 0, 0, 0,
+    0, cos, -sin, 0,
+    0, sin, cos, 0,
+    0, 0, 0, 1
+  );
+}
+
+function rotationMatrixY(angle) {
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return new THREE.Matrix4().set(
+    cos, 0, sin, 0,
+    0, 1, 0, 0,
+    -sin, 0, cos, 0,
+    0, 0, 0, 1
+  );
+}
+
 export function buildEventListeners(){
     rotateXSlider.oninput = function(){
         // if (pointsUnready()){
@@ -139,13 +161,14 @@ export function buildEventListeners(){
           let cos = Math.cos(rotateXSlider.value);
           let sin = Math.sin(rotateXSlider.value);
           
-          rotateXMatrixHTML[4].innerHTML = Math.round(cos * 100) / 100;
-          rotateXMatrixHTML[5].innerHTML = Math.round(sin * 100) / 100;
-          rotateXMatrixHTML[7].innerHTML = Math.round(-sin * 100) / 100;
-          rotateXMatrixHTML[8].innerHTML = Math.round(cos * 100) / 100;
+          rotateXMatrixHTML[4].innerHTML = cos
+          rotateXMatrixHTML[5].innerHTML = sin 
+          rotateXMatrixHTML[7].innerHTML = -sin
+          rotateXMatrixHTML[8].innerHTML = cos
           updateExtrinsicMatrix();
           updateCamMatrix();
           updatePersMatrix();
+          updatePersMatrixFromCam();
           if (pointsUnready()){
             if (sphereButton.value == "Hide Sphere"){
               PERS.persRenderSphere();
@@ -158,7 +181,6 @@ export function buildEventListeners(){
               CAM.camRenderBunny();
             }
           }else{
-            updatePersMatrixFromCam();
             updatePersPoints();
             updateCamPoints();
             CAM.camRenderDots();
@@ -174,26 +196,26 @@ export function buildEventListeners(){
         rotateYVal.innerHTML = "Rotate y: " + Math.round(rotateYSlider.value / Math.PI * 100) / 100;
         let cos = Math.cos(rotateYSlider.value);
         let sin = Math.sin(rotateYSlider.value);
-        rotateYMatrixHTML[0].innerHTML = Math.round(cos * 100) / 100;
-        rotateYMatrixHTML[2].innerHTML = Math.round(-sin * 100) / 100;
-        rotateYMatrixHTML[6].innerHTML = Math.round(sin * 100) / 100;
-        rotateYMatrixHTML[8].innerHTML = Math.round(cos * 100) / 100;
+        rotateYMatrixHTML[0].innerHTML = cos 
+        rotateYMatrixHTML[2].innerHTML = -sin
+        rotateYMatrixHTML[6].innerHTML = sin 
+        rotateYMatrixHTML[8].innerHTML =cos 
         updateExtrinsicMatrix();
         updateCamMatrix();
         updatePersMatrix();
+        updatePersMatrixFromCam();
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
-            CAM.camRenderSphere();
+            CAM.camRenderSphere(rotateYSlider.value);
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
           }else{
             PERS.persRenderBunny();
-            CAM.camRenderBunny();
+            CAM.camRenderBunny(0, rotateYSlider.value);
           }
         }else{
-          updatePersMatrixFromCam();
           updatePersPoints();
           updateCamPoints();
           CAM.camRenderDots();
@@ -209,13 +231,14 @@ export function buildEventListeners(){
         rotateZVal.innerHTML = "Rotate z: " + Math.round(rotateZSlider.value / Math.PI * 100) / 100;
         let cos = Math.cos(rotateZSlider.value);
         let sin = Math.sin(rotateZSlider.value);
-        rotateZMatrixHTML[0].innerHTML = Math.round(cos * 100) / 100;
-        rotateZMatrixHTML[1].innerHTML = Math.round(sin * 100) / 100;
-        rotateZMatrixHTML[3].innerHTML = Math.round(-sin * 100) / 100;
-        rotateZMatrixHTML[4].innerHTML = Math.round(cos * 100) / 100;
+        rotateZMatrixHTML[0].innerHTML = cos 
+        rotateZMatrixHTML[1].innerHTML = sin 
+        rotateZMatrixHTML[3].innerHTML = -sin
+        rotateZMatrixHTML[4].innerHTML = cos 
         updateExtrinsicMatrix();
         updateCamMatrix();
         updatePersMatrix();
+        updatePersMatrixFromCam();
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
@@ -228,7 +251,6 @@ export function buildEventListeners(){
             CAM.camRenderBunny();
           }
         }else{
-          updatePersMatrixFromCam();
           updatePersPoints();
           updateCamPoints();
           CAM.camRenderDots();
@@ -295,6 +317,7 @@ export function buildEventListeners(){
         transMatrixHTML[12].innerHTML = translateXSlider.value;
         updateCamMatrix();
         updatePersMatrix();
+        updatePersMatrixFromCam();
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
@@ -307,7 +330,6 @@ export function buildEventListeners(){
             CAM.camRenderBunny();
           }
         }else{
-          updatePersMatrixFromCam();
           updatePersPoints();
           updateCamPoints();
           CAM.camRenderDots();
@@ -325,6 +347,7 @@ export function buildEventListeners(){
         transMatrixHTML[13].innerHTML = translateYSlider.value;
         updateCamMatrix();
         updatePersMatrix();
+        updatePersMatrixFromCam();
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
@@ -337,7 +360,6 @@ export function buildEventListeners(){
             CAM.camRenderBunny();
           }
         }else{
-          updatePersMatrixFromCam();
           updatePersPoints();
           updateCamPoints();
           CAM.camRenderDots();
@@ -355,6 +377,7 @@ export function buildEventListeners(){
         transMatrixHTML[14].innerHTML = translateZSlider.value;
         updateCamMatrix();
         updatePersMatrix();
+        updatePersMatrixFromCam();
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
@@ -367,7 +390,6 @@ export function buildEventListeners(){
             CAM.camRenderBunny();
           }
         }else{
-          updatePersMatrixFromCam();
           updatePersPoints();
           updateCamPoints();
           CAM.camRenderDots();
@@ -390,6 +412,7 @@ export function buildEventListeners(){
       updateExtrinsicMatrix();
       updateCamMatrix();
       updatePersMatrix();
+      updatePersMatrixFromCam();
       if (pointsUnready()){
         if (sphereButton.value == "Hide Sphere"){
           PERS.persRenderSphere();
@@ -402,7 +425,6 @@ export function buildEventListeners(){
           CAM.camRenderBunny();
         }
       }else{
-        updatePersMatrixFromCam();
         updatePersPoints();
         updateCamPoints();
         CAM.camRenderDots();
@@ -559,9 +581,9 @@ function updateExtrinsicMatrix(){
   let rotateXMatrix= buildMatrix33(rotateXMatrixHTML);
   let rotateYMatrix= buildMatrix33(rotateYMatrixHTML);
   let rotateZMatrix= buildMatrix33(rotateZMatrixHTML);
-  let matrix = rotateXMatrix
+  let matrix = rotateZMatrix
   .multiply(rotateYMatrix)
-  .multiply(rotateZMatrix)
+  .multiply(rotateXMatrix)
   let elts = matrix.elements
   for (let i = 0; i < 9; i++) {
       extrinsicMatrixHTML[i].innerHTML = Math.round(elts[i] * 100) / 100;
@@ -597,11 +619,17 @@ export function updatePersMatrix(){
     let persMatrix = buildMatrix44(persMatrixHTML);
     let scaleMatrix = buildMatrix44(scaleMatrixHTML);
     let transMatrix = buildMatrix44(transMatrixHTML);
-    let matrix = orthoMatrix
+    let matrix = new THREE.Matrix4()
+    .multiply(orthoMatrix)
     .multiply(projMatrix)
     .multiply(persMatrix)
     .multiply(scaleMatrix)
     .multiply(transMatrix);
+    // let matrix = orthoMatrix
+    // .multiply(projMatrix)
+    // .multiply(persMatrix)
+    // .multiply(scaleMatrix)
+    // .multiply(transMatrix);
     buildToHTML44(matrix, persProjMatrixHTML);
     buildToHTML44(matrix, persProjMatrixMapHTML);
 }
@@ -732,7 +760,7 @@ function buildMatrix44(matrixHTML) {
 
     let arr = []
     for (let i = 0; i < 16; i++) {
-        arr[i] = matrixHTML[i].innerHTML
+        arr[i] = parseFloat(matrixHTML[i].innerHTML)
     }
 
     ret.set (arr[0], arr[4], arr[8],  arr[12],
