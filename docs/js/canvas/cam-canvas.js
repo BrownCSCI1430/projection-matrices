@@ -88,7 +88,7 @@ export function camRenderDots(){
                  camPoint2[0].innerHTML, camPoint2[1].innerHTML, 
                  camPoint3[0].innerHTML, camPoint3[1].innerHTML, 
                  camPoint4[0].innerHTML, camPoint4[1].innerHTML, ]
-    const dotGeometry = new THREE.SphereGeometry(0.5, 64, 64)
+    const dotGeometry = new THREE.SphereGeometry(0.07, 64, 64)
     const dotMaterial1 = new THREE.MeshStandardMaterial({
         color: '#ff00a2',
         roughness: 0.3,
@@ -109,10 +109,10 @@ export function camRenderDots(){
     const dot2 = new THREE.Mesh(dotGeometry, dotMaterial2);
     const dot3 = new THREE.Mesh(dotGeometry, dotMaterial3);
     const dot4 = new THREE.Mesh(dotGeometry, dotMaterial4);
-    dot1.position.set(arr[0], arr[1], -1);
-    dot2.position.set(arr[2], arr[3], -1);
-    dot3.position.set(arr[4], arr[5], -1);
-    dot4.position.set(arr[6], arr[7], -1);
+    dot1.position.set(arr[0]/4, arr[1]/4, 0);
+    dot2.position.set(arr[2]/4, arr[3]/4, 0);
+    dot3.position.set(arr[4]/4, arr[5]/4, 0);
+    dot4.position.set(arr[6]/4, arr[7]/4, 0);
     if (near.value === ""){
         near.value = -0.5
     }
@@ -142,59 +142,60 @@ export function camRenderDots(){
         scene.add(dot4);
     }
 
+    // add lines
     if (point1Valid){
         if (point2Valid){
-            points.push(new THREE.Vector2(arr[0], arr[1]));
-            points.push(new THREE.Vector2(arr[2], arr[3]));
+            points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
+            points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
             if (point3Valid){
-                points.push(new THREE.Vector2(arr[2], arr[3]));
-                points.push(new THREE.Vector2(arr[4], arr[5]));
+                points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
+                points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
                 if (point4Valid){
-                    points.push(new THREE.Vector2(arr[4], arr[5]));
-                    points.push(new THREE.Vector2(arr[6], arr[7]));
-                    points.push(new THREE.Vector2(arr[6], arr[7]));
-                    points.push(new THREE.Vector2(arr[0], arr[1]));
+                    points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
+                    points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                    points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                    points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
                 }else{
-                    points.push(new THREE.Vector2(arr[4], arr[5]));
-                    points.push(new THREE.Vector2(arr[0], arr[1]));
+                    points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
+                    points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
                 }
             }else if(point4Valid){
-                points.push(new THREE.Vector2(arr[2], arr[3]));
-                points.push(new THREE.Vector2(arr[6], arr[7]));
-                points.push(new THREE.Vector2(arr[6], arr[7]));
-                points.push(new THREE.Vector2(arr[0], arr[1]));
+                points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
+                points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
             }
         }else if(point3Valid){
-            points.push(new THREE.Vector2(arr[0], arr[1]));
-            points.push(new THREE.Vector2(arr[4], arr[5]));
+            points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
+            points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
             if (point4Valid){
-                points.push(new THREE.Vector2(arr[4], arr[5]));
-                points.push(new THREE.Vector2(arr[6], arr[7]));
-                points.push(new THREE.Vector2(arr[6], arr[7]));
-                points.push(new THREE.Vector2(arr[0], arr[1]));
+                points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
+                points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
             }
         }else if(point4Valid){
-            points.push(new THREE.Vector2(arr[0]), arr[1]);
-            points.push(new THREE.Vector2(arr[6], arr[7]));
+            points.push(new THREE.Vector2(arr[0]/4, arr[1]/4));
+            points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
         }
     }else{
         if(point2Valid){
             if (point3Valid){
-                points.push(new THREE.Vector2(arr[2], arr[3]));
-                points.push(new THREE.Vector2(arr[4], arr[5]));
+                points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
+                points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
                 if (point4Valid){
-                    points.push(new THREE.Vector2(arr[4], arr[5]));
-                    points.push(new THREE.Vector2(arr[6], arr[7]));
-                    points.push(new THREE.Vector2(arr[6], arr[7]));
-                    points.push(new THREE.Vector2(arr[2], arr[3]));
+                    points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
+                    points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                    points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
+                    points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
                 }
             }else if(point4Valid){
-                points.push(new THREE.Vector2(arr[2], arr[3]));
-                points.push(new THREE.Vector2(arr[6], arr[7]));
+                points.push(new THREE.Vector2(arr[2]/4, arr[3]/4));
+                points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
             }
         }else if(point3Valid && point4Valid){
-            points.push(new THREE.Vector2(arr[4], arr[5]));
-            points.push(new THREE.Vector2(arr[6], arr[7]));
+            points.push(new THREE.Vector2(arr[4]/4, arr[5]/4));
+            points.push(new THREE.Vector2(arr[6]/4, arr[7]/4));
         }
     }
 
@@ -209,7 +210,7 @@ export function camRenderSphere(rotateY){
     if (rotateY == undefined){
         rotateY = 0;
     }
-    let radius = 30;
+    let radius = 35;
     // preparations
     clearBunnyDots();
     clearScene();
@@ -236,7 +237,7 @@ export function camRenderSphere(rotateY){
     }
     pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
         arr[1], arr[4], arr[7],  arr[10],
-        arr[2], arr[5], arr[8], arr[11]+ 50,
+        -arr[2], -arr[5], -arr[8], -arr[11]+50,
         0, 0, 0, 1);
     // projected points
     if (near.value === ""){
@@ -264,6 +265,7 @@ export function camRenderSphere(rotateY){
         // const y = arr[1] * points[i].x + arr[4] * points[i].y + arr[7] * points[i].z + arr[10]
         // const w = -(arr[2] * points[i].x + arr[5] * points[i].y + arr[8] * points[i].z + arr[11])
         let point2 = points[i].applyMatrix4(pers_proj)
+        // point2.z *= -1
         // console.log(pers_proj)
         // console.log(arr[11])
         // let point2 = transformPoint(points[i].clone(), 0, rotateY, 0, 0, 0, 0)
@@ -316,9 +318,9 @@ export function camRenderCube(){
     for (let i = 0; i < 12; i++) {
         arr[i] = Math.round(cameraMatrixHTML[i].innerHTML * 100) / 100;
     }
-    pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
-        arr[1], arr[4], arr[7],  arr[10],
-        arr[2], arr[5], arr[8], arr[11]-20, 
+    pers_proj.set (arr[0], arr[3], arr[6],  -arr[9],
+        arr[1], arr[4], arr[7],  -arr[10],
+        -arr[2], -arr[5], -arr[8], arr[11]-8, 
         0, 0, 0, 1);
     // projected points
     if (near.value === ""){
@@ -422,38 +424,97 @@ function rotationMatrixX(angle) {
     point.applyMatrix4(fullTransform);
     return point;
 }
-/*
-creates bunny
-*/
-export function camRenderBunny(rotateX, rotateY){
+// /*
+// creates bunny
+// */
+// export function camRenderBunny(rotateX, rotateY, rotateZ, dx, dy, dz){
+//     // preparations
+//     clearScene();
+//     start();
+//     // points
+//     let points = [];
+//     fetch('bunny4.json')
+//     .then(response => response.json())
+//     .then(pointCloud => {
+//         for (let i = 0; i < pointCloud.length; i ++ ){
+//             points.push(new THREE.Vector3(pointCloud[i][0], pointCloud[i][1], pointCloud[i][2]))
+//         }
+//     const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
+//     const dotMaterial = new THREE.MeshStandardMaterial({
+//         color: '#00ff40',
+//         roughness: 0.3,
+//     })
+//     for (let i = 0; i < points.length; i ++){
+//         points[i] = transformPoint(points[i].clone(), rotateX, rotateY, rotateZ, 7 * dx, 7 * dy, 7 * dz-10);
+//         if (points[i].z <= near.value){
+//             const dot = new THREE.Mesh(dotGeometry, dotMaterial)
+//             dot.position.set(-points[i].x / points[i].z, -points[i].y / points[i].z)
+//             scene.add(dot)
+//             bunnyDots.push(dot)
+//         }
+//     }
+//     renderer.render(scene, camera)
+//     });
+// }
+export function camRenderBunny(){
     // preparations
     clearScene();
     start();
     // points
-    let points = [];
-    fetch('bunny4.json')
+    var points = [];
+    fetch('bunny2.json')
     .then(response => response.json())
     .then(pointCloud => {
         for (let i = 0; i < pointCloud.length; i ++ ){
-            points.push(new THREE.Vector3(pointCloud[i][0], pointCloud[i][1], pointCloud[i][2]))
+            // points.push(new THREE.Vector3(pointCloud[i][0], pointCloud[i][1], pointCloud[i][2]))
+            for (let j = 0; j < 3; j ++){
+                points.push(pointCloud[i][j])
+            }
         }
     const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
     const dotMaterial = new THREE.MeshStandardMaterial({
         color: '#00ff40',
         roughness: 0.3,
     })
-    for (let i = 0; i < points.length; i ++){
-        points[i] = transformPoint(points[i].clone(), rotateX, rotateY, 0, 0, 0, -10);
-        if (points[i].z <= 0){
-            const dot = new THREE.Mesh(dotGeometry, dotMaterial)
-            dot.position.set(-points[i].x / points[i].z, -points[i].y / points[i].z)
+        // projection matrix
+    let pers_proj = new THREE.Matrix4();
+    let arr = []
+    
+    for (let i = 0; i < 12; i++) {
+        arr[i] = Math.round(cameraMatrixHTML[i].innerHTML * 100) / 100;
+    }
+    pers_proj.set (arr[0], arr[3], arr[6],  arr[9],
+        arr[1], arr[4], arr[7],  arr[10],
+        -arr[2], -arr[5], -arr[8], -arr[11], 
+        0, 0, 0, 1);
+    // projected points
+    if (near.value === ""){
+        near.value = -0.5
+    }
+    if (far.value === ""){
+        far.value = -1
+    }
+    if (fx.value === ""){
+        fx.value = 1;
+    }
+    if (fy.value === ""){
+        fy.value = 1;
+    }
+    for (let i = 0; i < points.length/3; i ++){
+        const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
+        const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
+        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11] - 2)
+        // let point = points[i].applyMatrix4(pers_proj)
+        const dot = new THREE.Mesh(dotGeometry, dotMaterial)
+        // if (w <= 0 && w >= -100){
+            // if(point.z >= -0.1){
+            dot.position.set(x / w, y / w);
             scene.add(dot)
-            bunnyDots.push(dot)
-        }
+            bunnyDots.push(dot);
+        // }
     }
     renderer.render(scene, camera)
-    });
-}
+})}
 export function clearBunnyDots(){
     for (let i = 0; i < bunnyDots.length; i ++){
         scene.remove(bunnyDots[i]);

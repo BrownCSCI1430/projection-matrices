@@ -10,6 +10,18 @@ const near = document.getElementById('near-clipping')
 
 const submit = document.getElementById('submit-intrinsics')
 
+const rotateXSlider = document.getElementById('rotateX')
+const rotateYSlider = document.getElementById('rotateY')
+const rotateZSlider = document.getElementById('rotateZ')
+const translateXSlider = document.getElementById('translateX')
+const translateYSlider = document.getElementById('translateY')
+const translateZSlider = document.getElementById('translateZ')
+
+
+const sphereButton = document.getElementById('sphere-button')
+const cubeButton = document.getElementById('cube-button') 
+const bunnyButton = document.getElementById('bunny-button');
+
 function enter(){
     if (parseFloat(far.value) >= 0 || parseFloat(near.value) >= 0){
         alert('Please enter negative z coordinate values for clipping planes')
@@ -48,6 +60,7 @@ function enter(){
               }else{
                 PERS.persRenderBunny();
                 CAM.camRenderBunny();
+                // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
               }
           }else{
             RENDER.updateCamPoints();

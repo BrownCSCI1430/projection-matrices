@@ -130,27 +130,6 @@ function clearDots(){
   fourthY.value = '' 
   fourthZ.value = ''
 }
-function rotationMatrixX(angle) {
-  const cos = Math.cos(angle);
-  const sin = Math.sin(angle);
-  return new THREE.Matrix4().set(
-    1, 0, 0, 0,
-    0, cos, -sin, 0,
-    0, sin, cos, 0,
-    0, 0, 0, 1
-  );
-}
-
-function rotationMatrixY(angle) {
-  const cos = Math.cos(angle);
-  const sin = Math.sin(angle);
-  return new THREE.Matrix4().set(
-    cos, 0, sin, 0,
-    0, 1, 0, 0,
-    -sin, 0, cos, 0,
-    0, 0, 0, 1
-  );
-}
 
 export function buildEventListeners(){
     rotateXSlider.oninput = function(){
@@ -179,6 +158,7 @@ export function buildEventListeners(){
             }else{
               PERS.persRenderBunny();
               CAM.camRenderBunny();
+              // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
             }
           }else{
             updatePersPoints();
@@ -213,7 +193,8 @@ export function buildEventListeners(){
             CAM.camRenderCube();
           }else{
             PERS.persRenderBunny();
-            CAM.camRenderBunny(0, rotateYSlider.value);
+            CAM.camRenderBunny();
+            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -249,6 +230,7 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -297,6 +279,7 @@ export function buildEventListeners(){
         }else{
           PERS.persRenderBunny();
           CAM.camRenderBunny();
+          // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
         }
       }else{
         updatePersPoints();
@@ -328,6 +311,7 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -358,6 +342,7 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -388,6 +373,7 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -423,6 +409,7 @@ export function buildEventListeners(){
         }else{
           PERS.persRenderBunny();
           CAM.camRenderBunny();
+          // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
         }
       }else{
         updatePersPoints();
@@ -567,7 +554,7 @@ export function buildEventListeners(){
         resetTransButton.onclick();
         clearDots();
         PERS.persRenderBunny();
-        CAM.camRenderBunny();
+        CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
       }else{
         PERS.clearScene();
         PERS.start();
@@ -581,9 +568,9 @@ function updateExtrinsicMatrix(){
   let rotateXMatrix= buildMatrix33(rotateXMatrixHTML);
   let rotateYMatrix= buildMatrix33(rotateYMatrixHTML);
   let rotateZMatrix= buildMatrix33(rotateZMatrixHTML);
-  let matrix = rotateZMatrix
+  let matrix = rotateXMatrix
   .multiply(rotateYMatrix)
-  .multiply(rotateXMatrix)
+  .multiply(rotateZMatrix)
   let elts = matrix.elements
   for (let i = 0; i < 9; i++) {
       extrinsicMatrixHTML[i].innerHTML = Math.round(elts[i] * 100) / 100;

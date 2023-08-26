@@ -18,6 +18,6 @@ WORLD.buildEventListeners();
 INTRINSICS.buildEventListeners();
 RENDER.buildEventListeners();
 PERS.persRenderBunny();
-CAM.camRenderBunny(0, 0);
+CAM.camRenderBunny(0, 0, 0, 0, 0, 0);
 
 
