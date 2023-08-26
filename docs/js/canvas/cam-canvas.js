@@ -1,7 +1,7 @@
 import * as THREE from 'https://unpkg.com/three@0.155.0/build/three.module.js';
 import { Scene } from 'https://unpkg.com/three@0.155.0/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/controls/OrbitControls.js';
-import { DepthFormat, Vector3 } from 'three';
+import { DepthFormat, Vector3 } from 'https://unpkg.com/three@0.155.0/build/three.module.js';
 
 export const camPoint1 = document.getElementById('cam-point1').getElementsByTagName('span');
 export const camPoint2 = document.getElementById('cam-point2').getElementsByTagName('span');
