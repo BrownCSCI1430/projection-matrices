@@ -44,6 +44,8 @@ const resetTransButton = document.getElementById('reset-trans-button')
 const persToCam = document.getElementById('pers-to-cam')
 const camToPers = document.getElementById('cam-to-pers')
 
+const submit = document.getElementById('submit');
+
 const matricesEquationsPersToCam = document.querySelector('.matrices-equations-pers-to-cam')
 const matricesEquationsCamToPers = document.querySelector('.matrices-equations-cam-to-pers')
 const persCanvas = document.querySelector('.pers-canvas');
@@ -98,6 +100,7 @@ export const fourthZ = document.getElementById('fourth-z');
 const sphereButton = document.getElementById('sphere-button')
 const cubeButton = document.getElementById('cube-button') 
 const bunnyButton = document.getElementById('bunny-button');
+const pointsButton = document.getElementById('points-button');
 // let rotateXMatrix = new THREE.Matrix3().set(1, 0, 0, 0, 1, 0, 0, 0, 1);
 // let rotateYMatrix = rotateXMatrix.clone();
 // let rotateZMatrix = rotateYMatrix.clone();
@@ -131,6 +134,28 @@ function clearDots(){
   fourthZ.value = ''
 }
 
+function addDots(){
+  clearDots();
+  CAM.clearBunnyDots();
+  PERS.clearBunnyDots();
+  firstX.value = 1
+  firstY.value = 4
+  firstZ.value = -0.6
+
+  secondX.value = 3
+  secondY.value = -5
+  secondZ.value = -0.7
+
+  thirdX.value = -3
+  thirdY.value = 2
+  thirdZ.value = -0.8
+
+  fourthX.value = 7
+  fourthY.value = -5
+  fourthZ.value = -0.9
+
+  submit.click();
+}
 export function buildEventListeners(){
     rotateXSlider.oninput = function(){
         // if (pointsUnready()){
@@ -158,7 +183,6 @@ export function buildEventListeners(){
             }else{
               PERS.persRenderBunny();
               CAM.camRenderBunny();
-              // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
             }
           }else{
             updatePersPoints();
@@ -194,7 +218,6 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
-            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -230,7 +253,6 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
-            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -276,10 +298,9 @@ export function buildEventListeners(){
         }else if (cubeButton.value == "Hide Cube"){
           PERS.persRenderCube();
           CAM.camRenderCube();
-        }else{
+        }else if (bunnyButton.value == "Hide Bunny"){
           PERS.persRenderBunny();
           CAM.camRenderBunny();
-          // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
         }
       }else{
         updatePersPoints();
@@ -311,7 +332,6 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
-            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -342,7 +362,6 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
-            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -373,7 +392,6 @@ export function buildEventListeners(){
           }else{
             PERS.persRenderBunny();
             CAM.camRenderBunny();
-            // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
           }
         }else{
           updatePersPoints();
@@ -406,10 +424,9 @@ export function buildEventListeners(){
         }else if (cubeButton.value == "Hide Cube"){
           PERS.persRenderCube();
           CAM.camRenderCube();
-        }else{
+        }else if (bunnyButton.value == "Hide Bunny"){
           PERS.persRenderBunny();
           CAM.camRenderBunny();
-          // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
         }
       }else{
         updatePersPoints();
@@ -502,6 +519,7 @@ export function buildEventListeners(){
         sphereButton.value = "Hide Sphere";
         cubeButton.value = "Project Cube";
         bunnyButton.value = "Project Bunny";
+        pointsButton.value = "Add Points";
         // PERS.clearScene();
         // PERS.start();
         // CAM.clearScene();
@@ -526,6 +544,7 @@ export function buildEventListeners(){
         cubeButton.value = "Hide Cube";
         sphereButton.value = "Project Sphere";
         bunnyButton.value = "Project Bunny";
+        pointsButton.value = "Add Points";
         // PERS.clearScene();
         // PERS.start();
         // CAM.clearScene();
@@ -550,17 +569,44 @@ export function buildEventListeners(){
         bunnyButton.value = "Hide Bunny";
         sphereButton.value = "Project Sphere";
         cubeButton.value = "Project Cube";
+        pointsButton.value = "Add Points";
         resetRotButton.onclick();
         resetTransButton.onclick();
         clearDots();
         PERS.persRenderBunny();
-        CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
+        CAM.camRenderBunny();
       }else{
         PERS.clearScene();
         PERS.start();
         CAM.clearScene();
         CAM.start();
+        clearDots();
         bunnyButton.value = "Project Bunny";
+      }
+    }
+    pointsButton.onclick = function(){
+      if (pointsButton.value == "Add Points"){
+        pointsButton.value = "Hide Points";
+        cubeButton.value = "Project Cube";
+        sphereButton.value = "Project Sphere";
+        bunnyButton.value = "Project Bunny";
+        PERS.clearScene();
+        PERS.start();
+        CAM.clearScene();
+        CAM.start();
+        clearDots();
+        CAM.clearBunnyDots();
+        PERS.clearBunnyDots();
+        resetRotButton.onclick();
+        resetTransButton.onclick();
+        addDots();
+      }else{
+        PERS.clearScene();
+        PERS.start();
+        CAM.clearScene();
+        CAM.start();
+        clearDots();
+        pointsButton.value = "Add Points";
       }
     }
 }

@@ -8,6 +8,7 @@ const submit = document.getElementById('submit');
 const cubeButton = document.getElementById('cube-button')
 const sphereButton = document.getElementById('sphere-button');
 const bunnyButton = document.getElementById('bunny-button');
+const pointsButton = document.getElementById('points-button');
 const resetRotButton = document.getElementById('reset-rot-button')
 const resetTransButton = document.getElementById('reset-trans-button')
 
@@ -69,6 +70,11 @@ function project(){
         // CAM.animate();
         PERS.persRenderDots();
         // PERS.animate();
+        // if (pointsButton.value == "Hide Points"){
+        //     cubeButton.value = "Project Cube";
+        //     sphereButton.value = "Project Sphere";
+        //     bunnyButton.value = "Project Bunny";
+        // }
         cubeButton.value = "Project Cube";
         sphereButton.value = "Project Sphere";
         bunnyButton.value = "Project Bunny";

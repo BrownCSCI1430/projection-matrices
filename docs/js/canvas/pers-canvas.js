@@ -418,6 +418,7 @@ export function persRenderBunny(){
             scene.add(dot)
         }
     }
+    console.log("hi bunny")
     renderer.render(scene, camera)
     });
 }
@@ -425,5 +426,7 @@ export function clearBunnyDots(){
     for (let i = 0; i < bunnyDots.length; i ++){
         scene.remove(bunnyDots[i]);
     }
+    console.log(bunnyDots)
     bunnyDots = []
+    console.log("pers cleared")
 }

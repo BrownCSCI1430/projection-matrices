@@ -60,7 +60,6 @@ function enter(){
               }else{
                 PERS.persRenderBunny();
                 CAM.camRenderBunny();
-                // CAM.camRenderBunny(rotateXSlider.value, rotateYSlider.value, rotateZSlider.value, translateXSlider.value, translateYSlider.value, translateZSlider.value);
               }
           }else{
             RENDER.updateCamPoints();

@@ -222,9 +222,6 @@ export function camRenderSphere(rotateY){
         const num = Math.sin(phi) * 40
         for (let j = 0; j < num + 1; j ++){
             const theta = 2 * Math.PI / num * j
-            // points[3 * (i * num + j)] = radius * Math.sin(phi) * Math.cos(theta)
-            // points[3 * (i * num + j) + 1] = radius * Math.sin(phi) * Math.sin(theta) 
-            // points[3 * (i * num + j) + 2] = radius * Math.cos(phi)
             points.push(new THREE.Vector3(radius * Math.sin(phi) * Math.cos(theta), radius * Math.sin(phi) * Math.sin(theta), radius * Math.cos(phi)))
         }
     }
@@ -356,106 +353,11 @@ export function camRenderCube(){
     }
     renderer.render(scene, camera)
 }
-let bunnyDots = [];
-function rotationMatrixX(angle) {
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    return new THREE.Matrix4().set(
-      1, 0, 0, 0,
-      0, cos, -sin, 0,
-      0, sin, cos, 0,
-      0, 0, 0, 1
-    );
-  }
-  
-  function rotationMatrixY(angle) {
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    return new THREE.Matrix4().set(
-      cos, 0, sin, 0,
-      0, 1, 0, 0,
-      -sin, 0, cos, 0,
-      0, 0, 0, 1
-    );
-  }
-  function rotationMatrixZ(angle) {
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    return new THREE.Matrix4().set(
-      cos, -sin, 0, 0,
-      sin, cos, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-    );
-  }
-  function translationMatrix(dx, dy, dz) {
-    return new THREE.Matrix4().set(
-      1, 0, 0, dx,
-      0, 1, 0, dy,
-      0, 0, 1, dz,
-      0, 0, 0, 1
-    );
-  }
-  function transformPoint(point, rotateX, rotateY, rotateZ, dx, dy, dz) {
-    // Extrinsic matrix (camera transformation matrix)
-    const extrinsicMatrix = new THREE.Matrix4().copy(camera.matrixWorld).invert()
-    // const extrinsicMatrix = new THREE.Matrix4().identity();
-    // Intrinsic matrix (we'll keep it as identity for this example)
-    const intrinsicMatrix = new THREE.Matrix4().identity();
-  
-    // Rotation matrices based on input angles
-    const rotateXMatrix = rotationMatrixX(rotateX);
-    const rotateYMatrix = rotationMatrixY(rotateY);
-    const rotateZMatrix = rotationMatrixZ(rotateZ);
+var bunnyDots = [];
 
-    const translateMatrix = translationMatrix(dx, dy, dz);
-  
-    // Compute the full transformation matrix
-    let fullTransform = new THREE.Matrix4()
-      .multiply(intrinsicMatrix)
-      .multiply(extrinsicMatrix)
-      .multiply(translateMatrix)
-      .multiply(rotateXMatrix)
-      .multiply(rotateYMatrix)
-      .multiply(rotateZMatrix);
-  
-    // console.log(fullTransform)
-    // Transform the point
-    point.applyMatrix4(fullTransform);
-    return point;
-}
 // /*
 // creates bunny
 // */
-// export function camRenderBunny(rotateX, rotateY, rotateZ, dx, dy, dz){
-//     // preparations
-//     clearScene();
-//     start();
-//     // points
-//     let points = [];
-//     fetch('bunny4.json')
-//     .then(response => response.json())
-//     .then(pointCloud => {
-//         for (let i = 0; i < pointCloud.length; i ++ ){
-//             points.push(new THREE.Vector3(pointCloud[i][0], pointCloud[i][1], pointCloud[i][2]))
-//         }
-//     const dotGeometry = new THREE.SphereGeometry(0.03, 64, 64)
-//     const dotMaterial = new THREE.MeshStandardMaterial({
-//         color: '#00ff40',
-//         roughness: 0.3,
-//     })
-//     for (let i = 0; i < points.length; i ++){
-//         points[i] = transformPoint(points[i].clone(), rotateX, rotateY, rotateZ, 7 * dx, 7 * dy, 7 * dz-10);
-//         if (points[i].z <= near.value){
-//             const dot = new THREE.Mesh(dotGeometry, dotMaterial)
-//             dot.position.set(-points[i].x / points[i].z, -points[i].y / points[i].z)
-//             scene.add(dot)
-//             bunnyDots.push(dot)
-//         }
-//     }
-//     renderer.render(scene, camera)
-//     });
-// }
 export function camRenderBunny(){
     // preparations
     clearScene();
@@ -513,11 +415,14 @@ export function camRenderBunny(){
             bunnyDots.push(dot);
         // }
     }
+    console.log("hi bunny")
     renderer.render(scene, camera)
 })}
 export function clearBunnyDots(){
     for (let i = 0; i < bunnyDots.length; i ++){
         scene.remove(bunnyDots[i]);
     }
+    console.log(bunnyDots)
     bunnyDots = []
+    console.log("cam cleared")
 }
