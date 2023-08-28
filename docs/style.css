@@ -447,7 +447,8 @@ border-left:none;
   max-height: 100%;
   top: 100%;
   width: fit-content;
-  max-width: 100%;
+  max-width: 80%;
+  float: right;
 }
 .cam-canvas, .pers-canvas{
   border: 3px solid blue;
