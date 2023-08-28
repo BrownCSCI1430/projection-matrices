@@ -13,8 +13,8 @@ point_cloud -= np.mean(point_cloud, axis=0)
 point_cloud = np.concatenate((point_cloud, np.ones((point_cloud.shape[0], 1))), axis=1)
 
 # move it in front of the camera
-point_cloud += np.array([0, 0, -0.15, 0])
+# point_cloud += np.array([0, 0, -0.15, 0])
 
 # Export to JSON
-with open("bunny4.json", "w") as outfile:
+with open("bunny5.json", "w") as outfile:
     json.dump(point_cloud.tolist(), outfile)

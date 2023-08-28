@@ -117,7 +117,7 @@ export function camRenderDots(){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -241,7 +241,7 @@ export function camRenderSphere(rotateY){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -324,7 +324,7 @@ export function camRenderCube(){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -347,7 +347,7 @@ export function camRenderCube(){
         // if (w <= 0 && w >= -100){
             if (point.z <= 0 && point.z >= -100){
             //dot.position.set(x/w , y/w, 0);
-            dot.position.set(point.x / point.z, point.y / point.z)
+            dot.position.set(point.x / point.z, point.y / point.z, 0)
             scene.add(dot)
        }
     }
@@ -364,7 +364,7 @@ export function camRenderBunny(){
     start();
     // points
     var points = [];
-    fetch('bunny2.json')
+    fetch('bunny5.json')
     .then(response => response.json())
     .then(pointCloud => {
         for (let i = 0; i < pointCloud.length; i ++ ){
@@ -394,7 +394,7 @@ export function camRenderBunny(){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -405,24 +405,21 @@ export function camRenderBunny(){
     for (let i = 0; i < points.length/3; i ++){
         const x = arr[0] * points[3 * i] + arr[3] * points[3 * i + 1] + arr[6] * points[3 * i + 2] + arr[9]
         const y = arr[1] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[7] * points[3 * i + 2] + arr[10]
-        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11] - 2)
+        const w = -(arr[2] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[11] - 10)
         // let point = points[i].applyMatrix4(pers_proj)
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= 0 && w >= -100){
-            // if(point.z >= -0.1){
+        if(w >= -0.1){
             dot.position.set(x / w, y / w);
             scene.add(dot)
             bunnyDots.push(dot);
-        // }
+        }
     }
-    console.log("hi bunny")
     renderer.render(scene, camera)
 })}
 export function clearBunnyDots(){
     for (let i = 0; i < bunnyDots.length; i ++){
         scene.remove(bunnyDots[i]);
     }
-    console.log(bunnyDots)
     bunnyDots = []
-    console.log("cam cleared")
 }

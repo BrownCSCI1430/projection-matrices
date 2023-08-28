@@ -35,7 +35,7 @@
             <div class="input-intrinsics">
               <h5> Enter intrinsic parameters for the camera</h5>
               <div class="clipping">
-                <label for="far-clipping"> Far clipping plane: z = </label><input type="text" id="far-clipping" placeholder="-1" maxlength="10">
+                <label for="far-clipping"> Far clipping plane: z = </label><input type="text" id="far-clipping" placeholder="-10" maxlength="10">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <label for="near-clipping">Near clipping plane: z = </label><input type="text" id="near-clipping" placeholder="-0.5" maxlength="10">
               </div>
@@ -432,12 +432,12 @@
     
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
-                    <span class="limit-dp elem-3d">2</span>
+                    <span class="limit-dp elem-3d">1.05</span>
                     <span class="limit-dp elem-4d">-1</span>
   
                     <span class="limit-dp elem-4d">0</span>
                     <span class="limit-dp elem-4d">0</span>
-                    <span class="limit-dp elem-4d">1</span>
+                    <span class="limit-dp elem-4d">0.05</span>
                     <span class="limit-dp elem-4d">0</span>
                   </div>
                 </div>
@@ -474,19 +474,19 @@
                 <div class="matrix undefined" id="scale-matrix">
                   <button class="matrix-label" id="scale-button" style="width: 80px; border: none; font-size: 14px;">Scaling Matrix</button>
                   <div class="matrix-elements affine-demo-matrix-elements" style="grid-template: repeat(4, 1fr) / repeat(4, auto);">
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-2d">0</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
   
                     <span class="limit-dp elem-2d">0</span>
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
     
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
-                    <span class="limit-dp elem-3d">1</span>
+                    <span class="limit-dp elem-3d">0.1</span>
                     <span class="limit-dp elem-4d">0</span>
   
                     <span class="limit-dp elem-4d">0</span>
@@ -528,20 +528,20 @@
                 <div class="matrix undefined" id="pers-proj">
                   <div class="matrix-label" style="font-size: 14px;">Perspective Projection Matrix</div>
                   <div class="matrix-elements affine-demo-matrix-elements" style="grid-template: repeat(4, 1fr) / repeat(4, auto);">
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-2d">0</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
   
                     <span class="limit-dp elem-2d">0</span>
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
     
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
-                    <span class="limit-dp elem-4d">-1</span>
+                    <span class="limit-dp elem-4d">-0.1</span>
   
                     <span class="limit-dp elem-4d">0</span>
                     <span class="limit-dp elem-4d">0</span>
@@ -556,20 +556,20 @@
                 <div class="matrix undefined" id="pers-proj-map">
                   <div class="matrix-label" style="font-size: 14px;">Perspective Projection Matrix</div>
                   <div class="matrix-elements affine-demo-matrix-elements" style="grid-template: repeat(4, 1fr) / repeat(4, auto);">
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-2d">0</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
   
                     <span class="limit-dp elem-2d">0</span>
-                    <span class="limit-dp elem-2d">1</span>
+                    <span class="limit-dp elem-2d">0.1</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-4d">0</span>
     
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
                     <span class="limit-dp elem-3d">0</span>
-                    <span class="limit-dp elem-4d">-1</span>
+                    <span class="limit-dp elem-4d">-0.1</span>
   
                     <span class="limit-dp elem-4d">0</span>
                     <span class="limit-dp elem-4d">0</span>
@@ -1141,19 +1141,19 @@
                  <div class="matrix undefined" id="scale-matrix-from-cam">
                    <div class="matrix-label" style="font-size: 14px;">Scaling Matrix</div>
                    <div class="matrix-elements affine-demo-matrix-elements" style="grid-template: repeat(4, 1fr) / repeat(4, auto);">
-                     <span class="limit-dp elem-2d">1</span>
+                     <span class="limit-dp elem-2d">0.1</span>
                      <span class="limit-dp elem-2d">0</span>
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-4d">0</span>
 
                      <span class="limit-dp elem-2d">0</span>
-                     <span class="limit-dp elem-2d">1</span>
+                     <span class="limit-dp elem-2d">0.1</span>
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-4d">0</span>
  
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-3d">0</span>
-                     <span class="limit-dp elem-3d">1</span>
+                     <span class="limit-dp elem-3d">0.1</span>
                      <span class="limit-dp elem-4d">0</span>
 
                      <span class="limit-dp elem-4d">0</span>
@@ -1195,20 +1195,20 @@
                  <div class="matrix undefined" id="pers-proj-from-cam">
                    <div class="matrix-label" style="font-size: 14px;">Perspective Projection Matrix</div>
                    <div class="matrix-elements affine-demo-matrix-elements" style="grid-template: repeat(4, 1fr) / repeat(4, auto);">
-                     <span class="limit-dp elem-2d">1</span>
+                     <span class="limit-dp elem-2d">0.1</span>
                      <span class="limit-dp elem-2d">0</span>
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-4d">0</span>
 
                      <span class="limit-dp elem-2d">0</span>
-                     <span class="limit-dp elem-2d">1</span>
+                     <span class="limit-dp elem-2d">0.1</span>
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-4d">0</span>
  
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-3d">0</span>
                      <span class="limit-dp elem-3d">0</span>
-                     <span class="limit-dp elem-4d">-1</span>
+                     <span class="limit-dp elem-4d">-0.1</span>
 
                      <span class="limit-dp elem-4d">0</span>
                      <span class="limit-dp elem-4d">0</span>

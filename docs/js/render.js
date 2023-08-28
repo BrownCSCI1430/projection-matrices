@@ -180,9 +180,11 @@ export function buildEventListeners(){
             }else if (cubeButton.value == "Hide Cube"){
               PERS.persRenderCube();
               CAM.camRenderCube();
-            }else{
+            }else if (bunnyButton.value == "Hide Bunny"){
               PERS.persRenderBunny();
               CAM.camRenderBunny();
+            }else{
+              alert('Please enter point coordinates or choose given shapes')
             }
           }else{
             updatePersPoints();
@@ -211,13 +213,15 @@ export function buildEventListeners(){
         if (pointsUnready()){
           if (sphereButton.value == "Hide Sphere"){
             PERS.persRenderSphere();
-            CAM.camRenderSphere(rotateYSlider.value);
+            CAM.camRenderSphere();
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
-          }else{
+          }else if (bunnyButton.value == "Hide Bunny"){
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+          }else{
+            alert('Please enter point coordinates or choose given shapes')
           }
         }else{
           updatePersPoints();
@@ -250,9 +254,11 @@ export function buildEventListeners(){
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
-          }else{
+          }else if (bunnyButton.value == "Hide Bunny"){
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+          }else{
+            alert('Please enter point coordinates or choose given shapes')
           }
         }else{
           updatePersPoints();
@@ -329,9 +335,11 @@ export function buildEventListeners(){
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
-          }else{
+          }else if (bunnyButton.value == "Hide Bunny"){
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+          }else{
+            alert('Please enter point coordinates or choose given shapes')
           }
         }else{
           updatePersPoints();
@@ -359,9 +367,11 @@ export function buildEventListeners(){
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
-          }else{
+          }else if (bunnyButton.value == "Hide Bunny"){
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+          }else{
+            alert('Please enter point coordinates or choose given shapes')
           }
         }else{
           updatePersPoints();
@@ -389,9 +399,11 @@ export function buildEventListeners(){
           }else if (cubeButton.value == "Hide Cube"){
             PERS.persRenderCube();
             CAM.camRenderCube();
-          }else{
+          }else if (bunnyButton.value == "Hide Bunny"){
             PERS.persRenderBunny();
             CAM.camRenderBunny();
+          }else{
+            alert('Please enter point coordinates or choose given shapes')
           }
         }else{
           updatePersPoints();

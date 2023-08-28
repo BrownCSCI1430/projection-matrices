@@ -113,7 +113,7 @@ export function persRenderDots(){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -241,14 +241,14 @@ export function persRenderSphere(){
     //     arr[3], arr[7], arr[11], -10);
     pers_proj.set (arr[0], arr[4], arr[8],  arr[12],
         arr[1], arr[5], arr[9],  arr[13],
-        arr[3], arr[7], arr[11], arr[15] + 50,
+        arr[3], arr[7], arr[11], arr[15] + 5,
         0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -317,14 +317,14 @@ export function persRenderCube(){
     }
     pers_proj.set (arr[0], arr[4], arr[8],  -arr[12],
         arr[1], arr[5], arr[9],  -arr[13],
-        arr[3], arr[7], arr[11], -arr[15]-8, 
+        arr[3], arr[7], arr[11], -arr[15]-0.8, 
         0, 0, 0, 1);
     // projected points
     if (near.value === ""){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -345,7 +345,8 @@ export function persRenderCube(){
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= parseFloat(near.value) && w >= parseFloat(far.value)){
         if (point.z<= 0 && point.z >= -100){
-            dot.position.set(point.x/point.z , point.y/point.z, 0);
+            dot.position.set(point.x / point.z, point.y / point.z, 0)
+            // dot.position.set(point.x/point.z , point.y/point.z);
             scene.add(dot)
         }
     }
@@ -361,7 +362,7 @@ export function persRenderBunny(){
     start();
     // points
     var points = [];
-    fetch('bunny2.json')
+    fetch('bunny5.json')
     .then(response => response.json())
     .then(pointCloud => {
         // Use pointCloud data as needed
@@ -391,7 +392,7 @@ export function persRenderBunny(){
         near.value = -0.5
     }
     if (far.value === ""){
-        far.value = -1
+        far.value = -10
     }
     if (fx.value === ""){
         fx.value = 1;
@@ -405,20 +406,18 @@ export function persRenderBunny(){
         roughness: 0.3,
     })
     for (let i = 0; i < points.length / 3; i ++){
-        const x = arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12]
-        const y = arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]
-        const w = arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]+2
+        const x = (arr[0] * points[3 * i] + arr[4] * points[3 * i + 1] + arr[8] * points[3 * i + 2] + arr[12])
+        const y = (arr[1] * points[3 * i] + arr[5] * points[3 * i + 1] + arr[9] * points[3 * i + 2] + arr[13]) 
+        const w = (arr[3] * points[3 * i] + arr[7] * points[3 * i + 1] + arr[11] * points[3 * i + 2] + arr[15]+1) 
         const dot = new THREE.Mesh(dotGeometry, dotMaterial)
         // if (w <= 0 && w >= -100){
-            if(w >= -0.1){
-             
-            dot.position.set(x/w, y/w, 0);
+        if(w >= -0.1){
+            dot.position.set(x/w, y/w);
             bunnyDots.push(dot);
             scene.children.push(dot);
             scene.add(dot)
         }
     }
-    console.log("hi bunny")
     renderer.render(scene, camera)
     });
 }
@@ -426,7 +425,5 @@ export function clearBunnyDots(){
     for (let i = 0; i < bunnyDots.length; i ++){
         scene.remove(bunnyDots[i]);
     }
-    console.log(bunnyDots)
     bunnyDots = []
-    console.log("pers cleared")
 }
