@@ -354,7 +354,7 @@ border-left:none;
   display:grid;
   place-items:left;
   grid-auto-flow:column;
-  gap:.5ch 2ch
+  gap:.5ch 1.5ch
   
 }
 /* #ortho-button, #proj-button, #pers-button, #scale-button{
